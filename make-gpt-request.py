@@ -1,7 +1,7 @@
 import requests
 
 # Replace with your vsegpt.ru API key
-API_KEY = "sk-or-vv-4c26f54349ce6eae77ca25acefa362a76c53689c6dbefdb03845661d158610cf"
+API_KEY = ""
 API_URL = "https://api.vsegpt.ru/v1/chat/completions"  # Example endpoint, check their docs
 
 def get_gpt_response(prompt):
