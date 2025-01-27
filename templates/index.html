@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help creating videos</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      width: 400px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #333;
+    }
+
+    .input-group {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .input-group input {
+      width: 70%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .input-group button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .input-group button:hover {
+      background-color: #0056b3;
+    }
+
+    .output-window {
+      width: 100%;
+      height: 300px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      overflow-y: auto;
+      text-align: left;
+      background-color: #f9f9f9;
+      display: none; /* Hidden by default */
+    }
+
+    .output-window p {
+      margin: 0;
+      font-size: 16px;
+      color: #333;
+      white-space: pre-wrap; /* Preserve line breaks */
+    }
+
+    .output-window b {
+      font-weight: bold;
+    }
+
+    .reset-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      display: none; /* Hidden by default */
+    }
+
+    .reset-button:hover {
+      background-color: #c82333;
+    }
+
+    .loading {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #333;
+      display: none; /* Hidden by default */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Write a theme</h2>
+    <div class="input-group">
+      <input type="text" id="inputText" placeholder="Enter your text here">
+      <button onclick="sendText()">Send</button>
+    </div>
+    <div class="loading" id="loading">
+      Generating theme...
+    </div>
+    <div class="output-window" id="outputWindow">
+      <!-- Output will appear here -->
+    </div>
+    <button class="reset-button" id="resetButton" onclick="resetScreen()">Generate new theme</button>
+  </div>
+
+  <script>
+    // Add event listener for Enter key
+    document.getElementById('inputText').addEventListener('keypress', function (event) {
+      if (event.key === 'Enter') {
+        sendText();
+      }
+    });
+
+    // Function to send text to the backend
+    async function sendText() {
+      const inputText = document.getElementById('inputText').value;
+      const outputWindow = document.getElementById('outputWindow');
+      const loading = document.getElementById('loading');
+      const resetButton = document.getElementById('resetButton');
+
+      // Show loading message
+      loading.style.display = 'block';
+      outputWindow.style.display = 'none'; // Hide output window
+      resetButton.style.display = 'none'; // Hide reset button
+
+      try {
+        const response = await fetch('http://127.0.0.1:5000/generate_video', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ text: inputText }),
+        });
+
+        const data = await response.json();
+
+        // Format the output
+        let formattedOutput = data.bot_response
+          .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>') // Replace **word** with <b>word</b>
+          .replace(/\n/g, '<br>'); // Replace newlines with <br>
+
+        // Display the output
+        outputWindow.innerHTML = `<p>${formattedOutput}</p>`;
+        outputWindow.style.display = 'block'; // Show output window
+        resetButton.style.display = 'block'; // Show reset button
+      } catch (error) {
+        outputWindow.innerHTML = '<p>Error processing your request.</p>';
+        outputWindow.style.display = 'block'; // Show output window
+        resetButton.style.display = 'block'; // Show reset button
+      } finally {
+        loading.style.display = 'none'; // Hide loading message
+      }
+    }
+
+    // Function to reset the screen
+    function resetScreen() {
+      document.getElementById('inputText').value = ''; // Clear input
+      document.getElementById('outputWindow').innerHTML = ''; // Clear output
+      document.getElementById('outputWindow').style.display = 'none'; // Hide output window
+      document.getElementById('resetButton').style.display = 'none'; // Hide reset button
+    }
+  </script>
+</body>
+</html>
