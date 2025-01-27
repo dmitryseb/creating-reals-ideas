@@ -64,7 +64,7 @@ def extract_shorts_links(videos):
 
 def generate_links_file(user_input):
     #user_input = input("Enter the topic for which you want to create a video (e.g., \"technology\"): ")
-    tags_number = 15
+    tags_number = 3
     get_topics_prompt = make_queries_prompt(tags_number, user_input)
     tags = [user_input]
     tags += get_gpt_response(get_topics_prompt).split(",")

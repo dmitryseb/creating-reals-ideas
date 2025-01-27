@@ -15,7 +15,7 @@ def generate_ideas():
     for item in collected_data['results']:
         videos += item['videos']
     videos.sort(key=lambda v: int(v['views']), reverse=True)
-    max_videos_number = 10
+    max_videos_number = 20
     i = 0
     cnt = 0
     while i < len(videos) and cnt < max_videos_number:
