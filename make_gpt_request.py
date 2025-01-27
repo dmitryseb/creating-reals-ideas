@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_KEY = os.getenv('GPT_KEY')
-API_URL = "https://api.vsegpt.ru/v1/chat/completions"  # Example endpoint, check their docs
+API_URL = "https://api.vsegpt.ru/v1/chat/completions"
 
 def get_gpt_response(prompt, max_tokens=500):
     headers = {
@@ -13,7 +13,7 @@ def get_gpt_response(prompt, max_tokens=500):
         "Content-Type": "application/json"
     }
     data = {
-        "model": "gpt-4",  # Replace with the model they support
+        "model": "gpt-4o-mini",
         "messages": [
             {"role": "user", "content": prompt}
         ],
