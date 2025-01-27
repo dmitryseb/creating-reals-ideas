@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from collecting_links import generate_links_file
 from links_to_ideas import generate_ideas
@@ -6,6 +6,10 @@ from links_to_ideas import generate_ideas
 
 app = Flask(__name__)
 CORS(app)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route('/generate_video', methods=['POST'])
 def gen():

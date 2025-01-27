@@ -142,7 +142,7 @@
       resetButton.style.display = 'none'; // Hide reset button
 
       try {
-        const response = await fetch('http://127.0.0.1:5000/generate_video', {
+        const response = await fetch('/generate_video', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
