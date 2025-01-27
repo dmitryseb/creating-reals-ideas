@@ -4,8 +4,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-API_KEY = os.getenv('GPT_KEY')
-API_URL = "https://api.vsegpt.ru/v1/chat/completions"
+API_KEY = os.getenv('GPT_KEY_CHATGPT')
+API_URL = "https://api.openai.com/v1/chat/completions"
 
 def get_gpt_response(prompt, max_tokens=500):
     headers = {
@@ -17,7 +17,8 @@ def get_gpt_response(prompt, max_tokens=500):
         "messages": [
             {"role": "user", "content": prompt}
         ],
-        "max_tokens": max_tokens
+        "max_tokens": max_tokens,
+        "temperature": 0.7
     }
     response = requests.post(API_URL, headers=headers, json=data)
     if response.status_code == 200:
