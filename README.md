@@ -4,7 +4,7 @@
 
 
 ## Презентация проекта
-
+https://github.com/dmitryseb/creating-reals-ideas/blob/main/Presentation.pdf
 
 ## Видео-скринкаст
 
