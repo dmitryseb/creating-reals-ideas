@@ -1,10 +1,12 @@
 import requests
 import os
 from dotenv import load_dotenv
+from logger_creation import logger
 
 load_dotenv()
 
 API_KEY = os.getenv('GPT_KEY_CHATGPT')
+logger.info(API_KEY)
 API_URL = "https://api.openai.com/v1/chat/completions"
 
 def get_gpt_response(prompt, max_tokens=500):
