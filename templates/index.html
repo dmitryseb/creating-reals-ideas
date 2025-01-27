@@ -122,25 +122,22 @@
   </div>
 
   <script>
-    // Add event listener for Enter key
+     // Add event listener for Enter key
     document.getElementById('inputText').addEventListener('keypress', function (event) {
       if (event.key === 'Enter') {
         sendText();
       }
     });
-
     // Function to send text to the backend
     async function sendText() {
       const inputText = document.getElementById('inputText').value;
       const outputWindow = document.getElementById('outputWindow');
       const loading = document.getElementById('loading');
       const resetButton = document.getElementById('resetButton');
-
       // Show loading message
       loading.style.display = 'block';
       outputWindow.style.display = 'none'; // Hide output window
       resetButton.style.display = 'none'; // Hide reset button
-
       try {
         const response = await fetch('/generate_video', {
           method: 'POST',
@@ -149,14 +146,11 @@
           },
           body: JSON.stringify({ text: inputText }),
         });
-
         const data = await response.json();
-
         // Format the output
         let formattedOutput = data.bot_response
           .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>') // Replace **word** with <b>word</b>
           .replace(/\n/g, '<br>'); // Replace newlines with <br>
-
         // Display the output
         outputWindow.innerHTML = `<p>${formattedOutput}</p>`;
         outputWindow.style.display = 'block'; // Show output window
@@ -169,7 +163,6 @@
         loading.style.display = 'none'; // Hide loading message
       }
     }
-
     // Function to reset the screen
     function resetScreen() {
       document.getElementById('inputText').value = ''; // Clear input

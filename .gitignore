@@ -1,5 +1,6 @@
 .env
 generated_prompt.txt
+app.log
 links.json
 /.idea/
 /__pycache__/
