@@ -1,6 +1,7 @@
 import json
 from get_subtitles import parse_video
 from make_gpt_request import get_gpt_response
+from logger_creation import logger
 
 def trunc_str(string, length):
     return string[:length] if len(string) >= length else string
@@ -34,7 +35,7 @@ def generate_ideas():
         prompt += "\n"
         i += 1
         cnt += 1
-        print(f"Successfully proceeded {i}th video")
+        logger.info(f"Successfully proceeded {i}th video")
     prompt = "".join([c if c.isascii() else "" for c in prompt])
     with open("generated_prompt.txt", "w") as f:
         f.write(prompt)

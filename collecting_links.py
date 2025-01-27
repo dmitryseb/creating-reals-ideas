@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import json
 
 from make_gpt_request import get_gpt_response
+from logger_creation import logger
 
 def make_queries_prompt(queries_number, topic):
    return f"I'm exploring YouTube Shorts (vertical videos under 1 minute) related to different topics. To get a better understanding of what's popular, I want to search for a variety of specific queries related to a given topic. In the end of this text I will give you a topic, you should generate a list of {str(queries_number)} specific hashtags that will help me discover the most popular and relevant videos. These tags together MUST cover all or almost all popular shorts which could potentially be created. Focus on how videos related to the topic might be titled, not just synonyms of the topic name. List the tags without numbering and without extra words. Separate them with a comma without any additional spaces etc. Don't use abstract names in square brackets, always use specific most popular examples instead of it. Avoid mentioning word news in your hashtags. Your topic for now is \"{topic}\". Create hashtags in the language in which topic is given."
@@ -76,7 +77,7 @@ def generate_links_file(user_input):
     tags = list(set(tags))
     if len(tags) > tags_number:
         tags = tags[:tags_number]
-    print(tags)
+    logger.info(tags)
 
     load_dotenv()
 
@@ -92,10 +93,10 @@ def generate_links_file(user_input):
             ok = False
             try:
                 results = search_youtube_videos(youtube, query="#" + tag)
-                print(f"Successfully proceeded query {tag} using {i}th key")
+                logger.info(f"Successfully proceeded query {tag} using {i}th key")
                 ok = True
             except Exception as e:
-                print(f"Error processing query {tag} using {i}th key, error: {e}")
+                logger.error(f"Error processing query {tag} using {i}th key, error: {e}")
                 continue
             shorts_links = extract_shorts_links(results)
             res_now = {"query": tag, "videos": []}

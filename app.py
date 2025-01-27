@@ -3,7 +3,6 @@ from flask_cors import CORS
 from collecting_links import generate_links_file
 from links_to_ideas import generate_ideas
 
-
 app = Flask(__name__)
 CORS(app)
 
