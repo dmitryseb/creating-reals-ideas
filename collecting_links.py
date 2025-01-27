@@ -56,13 +56,14 @@ def search_youtube_videos(youtube, query, max_results=20):
         )
         info = request.execute()
         video = {
-            'title': item['snippet']['title'],
             'video_id': video_id,
             'url': f'https://www.youtube.com/watch?v={video_id}',
             'published_at': item['snippet']['publishedAt'],
             'view_count': get_views(info),
             'is_short': is_shorts_video(info),
-            'thumbnail': info['items'][0]['snippet']['thumbnails']['high']['url']
+            'thumbnail': info['items'][0]['snippet']['thumbnails']['high']['url'],
+            'title': info['items'][0]['snippet']['title'],
+            'description': info['items'][0]['snippet']['description']
         }
         videos.append(video)
 
@@ -80,7 +81,7 @@ def is_shorts_video(info):
     return duration_seconds <= 63
 
 def extract_shorts_links(videos):
-    shorts_links = [(video['url'], video['view_count'], video['thumbnail']) for video in videos if video['is_short']]
+    shorts_links = [(video['video_id'], video['url'], video['view_count'], video['thumbnail']) for video in videos if video['is_short']]
     return shorts_links
 
 
@@ -100,7 +101,7 @@ for tag in tags:
         shorts_links = extract_shorts_links(results)
         res_now = {"query": tag, "videos": []}
         for link in shorts_links:
-            res_now["videos"].append({"link": link[0], "views": link[1], "thumbnail": link[2]})
+            res_now["videos"].append({"id": link[0], "link": link[1], "views": link[2], "thumbnail": link[3]})
         result["results"].append(res_now)
         if ok:
             break
